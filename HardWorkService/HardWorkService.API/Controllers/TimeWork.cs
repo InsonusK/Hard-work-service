@@ -1,6 +1,7 @@
 ﻿using System;
 using HardWorkService.API.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace HardWorkService.API.Controllers
 {
@@ -8,21 +9,25 @@ namespace HardWorkService.API.Controllers
     public class TimeWork : ControllerBase
     {
         private readonly TimeHardWork _hardWorkService;
+        private readonly ILogger<TimeWork> _logger;
 
-        public TimeWork(TimeHardWork hardWorkService)
+        public TimeWork(TimeHardWork hardWorkService, ILogger<TimeWork> logger)
         {
             _hardWorkService = hardWorkService;
+            _logger = logger;
         }
 
         [HttpPost("now")]
         public ActionResult<ulong> PostNow([FromBody] TimeWorkTask task)
         {
+            _logger.LogInformation("Post Now, spend {1} seconds", task.Seconds);
             return Ok(_hardWorkService.DoNow(TimeSpan.FromSeconds(task.Seconds)));
         }
         
         [HttpPost("task")]
-        public ActionResult<Guid> PostB([FromBody] TimeWorkTask task)
+        public ActionResult<Guid> PostTask([FromBody] TimeWorkTask task)
         {
+            _logger.LogInformation("Post Task, spend {1} seconds", task.Seconds);
             return Ok(_hardWorkService.CreateNewWork(TimeSpan.FromSeconds(task.Seconds)));
         }
 
