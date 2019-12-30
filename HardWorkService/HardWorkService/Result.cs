@@ -3,11 +3,10 @@ using System.Threading.Tasks;
 
 namespace HardWorkService
 {
-    public class Result
+    public class Result:IReadResult
     {
-        public bool Finish;
-        public DateTime EndDateTime;
+        public bool Finish { get; set; }
+        public DateTime EndDateTime { get; set; }
         public Task<ulong> Task;
     }
-
 }
