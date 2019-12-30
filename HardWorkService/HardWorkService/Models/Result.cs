@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace HardWorkService
+namespace HardWorkService.Models
 {
     public class Result : IReadResult
     {

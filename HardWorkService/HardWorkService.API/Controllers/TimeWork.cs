@@ -1,5 +1,6 @@
 ﻿using System;
 using HardWorkService.API.Models;
+using HardWorkService.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 

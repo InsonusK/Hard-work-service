@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using HardWorkService.Models;
 
-namespace HardWorkService
+namespace HardWorkService.Status
 {
     public interface IStatusSource
     {
