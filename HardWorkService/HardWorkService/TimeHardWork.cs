@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Data;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace HardWorkService
@@ -8,7 +9,12 @@ namespace HardWorkService
     public class TimeHardWork
     {
         ConcurrentDictionary<Guid, Result> Jobs = new ConcurrentDictionary<Guid, Result>();
-        
+
+        HardWorkStatus Status =>
+            new HardWorkStatus(
+                new ConcurrentDictionary<Guid, IReadResult>(Jobs.ToDictionary(kvp => kvp.Key,
+                    kvp => (IReadResult) kvp.Value)));
+
         public Guid CreateNewWork(TimeSpan time)
         {
             Guid newGuid = Guid.NewGuid();
@@ -40,7 +46,7 @@ namespace HardWorkService
         {
             return Work(time);
         }
-        
+
         public static ulong Work(TimeSpan time)
         {
             DateTime _time = DateTime.Now.AddSeconds(time.TotalSeconds);
