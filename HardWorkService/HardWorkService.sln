@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HardWorkService", "HardWork
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HardWorkService.Test", "HardWorkService.Test\HardWorkService.Test.csproj", "{DA2B91AD-B634-48D2-979D-7E96A8BE9BBB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HardWorkService.API", "HardWorkService.API\HardWorkService.API.csproj", "{9573F99E-C908-4BB5-B097-AE8313DD7FD3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{DA2B91AD-B634-48D2-979D-7E96A8BE9BBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA2B91AD-B634-48D2-979D-7E96A8BE9BBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DA2B91AD-B634-48D2-979D-7E96A8BE9BBB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9573F99E-C908-4BB5-B097-AE8313DD7FD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9573F99E-C908-4BB5-B097-AE8313DD7FD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9573F99E-C908-4BB5-B097-AE8313DD7FD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9573F99E-C908-4BB5-B097-AE8313DD7FD3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
