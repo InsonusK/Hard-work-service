@@ -6,5 +6,6 @@ namespace HardWorkService
     {
         bool Finish { get; }
         DateTime EndDateTime { get; }
+        DateTime StartDateTime { get; }
     }
 }

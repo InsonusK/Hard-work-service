@@ -1,44 +1,37 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace HardWorkService
 {
-    public class TimeHardWork
+    public class TimeHardWork : IStatusSource
     {
         ConcurrentDictionary<Guid, Result> Jobs = new ConcurrentDictionary<Guid, Result>();
-
-        HardWorkStatus Status =>
-            new HardWorkStatus(
-                new ConcurrentDictionary<Guid, IReadResult>(Jobs.ToDictionary(kvp => kvp.Key,
-                    kvp => (IReadResult) kvp.Value)));
 
         public Guid CreateNewWork(TimeSpan time)
         {
             Guid newGuid = Guid.NewGuid();
-            if (!Jobs.TryAdd(newGuid, new Result()))
+           
+            var task = new Task<ulong>(() =>
             {
+                ulong answer = DoNow(time);
+                var job = Jobs[newGuid];
+                lock (job)
+                {
+                    job.EndDateTime = DateTime.Now;
+                    job.Finish = true;
+                    return answer;
+                }
+            });
+            if (!Jobs.TryAdd(newGuid, new Result( DateTime.Now,task)))
+            {
+                task.Dispose();
                 throw new DuplicateNameException("Guid duplicate");
             }
-
-            var job = Jobs[newGuid];
-            lock (job)
-            {
-                job.Task = Task.Factory.StartNew<ulong>(() =>
-                {
-                    ulong answer = DoNow(time);
-                    var job = Jobs[newGuid];
-                    lock (job)
-                    {
-                        job.EndDateTime = DateTime.Now;
-                        job.Finish = true;
-                        return answer;
-                    }
-                });
-            }
-
+            task.Start();
             return newGuid;
         }
 
@@ -64,5 +57,16 @@ namespace HardWorkService
 
             return counter;
         }
+
+        #region Implementation of IStatusSource
+
+        /// <inheritdoc />
+        public IReadOnlyDictionary<Guid, IReadResult> GetJobs()
+        {
+            return new ConcurrentDictionary<Guid, IReadResult>(Jobs.ToDictionary(kvp => kvp.Key,
+                kvp => (IReadResult) kvp.Value));
+        }
+
+        #endregion
     }
 }
