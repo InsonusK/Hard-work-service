@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HardWorkService", "HardWorkService\HardWorkService.csproj", "{EB0B288E-510B-4262-BF1A-DEC0E57170ED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HardWorkService.Test", "HardWorkService.Test\HardWorkService.Test.csproj", "{DA2B91AD-B634-48D2-979D-7E96A8BE9BBB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EB0B288E-510B-4262-BF1A-DEC0E57170ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB0B288E-510B-4262-BF1A-DEC0E57170ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB0B288E-510B-4262-BF1A-DEC0E57170ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB0B288E-510B-4262-BF1A-DEC0E57170ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA2B91AD-B634-48D2-979D-7E96A8BE9BBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA2B91AD-B634-48D2-979D-7E96A8BE9BBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA2B91AD-B634-48D2-979D-7E96A8BE9BBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA2B91AD-B634-48D2-979D-7E96A8BE9BBB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
