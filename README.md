@@ -1,0 +1,1 @@
+Service for emulating hard work
