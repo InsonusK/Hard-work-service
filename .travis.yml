@@ -7,3 +7,9 @@ befor_install:
 
 script:
   - docker run insonusk/hard-work-service dotnet test
+
+deploy:
+  provider: script
+  script: bash docker_push
+  on:
+    branch: master
