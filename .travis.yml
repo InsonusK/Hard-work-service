@@ -10,6 +10,6 @@ script:
 
 deploy:
   provider: script
-  script: bash Scripts/Docker-build-release-push.sh
+  script: bash Scripts/docker-build-release-push.sh
   on: 
     branch: master
