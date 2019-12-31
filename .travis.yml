@@ -17,3 +17,5 @@ before_deploy:
 deploy:
   provider: script
   script: push insonusk/hard-work-service
+  on: 
+    branch: master
