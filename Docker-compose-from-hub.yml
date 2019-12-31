@@ -1,8 +1,6 @@
 ﻿version: '3'
 services:
   hard-work-service:
-    build:
-      context: ./HardWorkService
-      dockerfile: ./Dockerfile
+    image: "insonusk/hard-work-service"
     ports:
       - "1234:80"
