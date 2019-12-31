@@ -16,6 +16,6 @@ before_deploy:
 
 deploy:
   provider: script
-  script: bash Script/Docker-Release-Push
+  script: bash Scripts/Docker-Release-Push.sh
   on: 
     branch: master
