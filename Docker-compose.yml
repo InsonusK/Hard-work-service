@@ -1,0 +1,8 @@
+﻿version: '3'
+services:
+  web-api:
+    build:
+      context: ./HardWorkService
+      dockerfile: Dockerfile
+    ports:
+      - "1234:80"
