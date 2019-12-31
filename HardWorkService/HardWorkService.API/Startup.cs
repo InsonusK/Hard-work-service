@@ -30,11 +30,15 @@ namespace HardWorkService.API
             services.AddControllers();
 
             services.AddSingleton<TimeHardWork>();
-
+  
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo {Title = "Hard work service API", Version = "v1"});
+                OpenApiInfo _info = new OpenApiInfo{Title = "Hard work service API", Version = "v1"};
+#if DEBUG
+                _info.Title = _info.Title + "(DEBUG)";
+#endif
+                c.SwaggerDoc("v1", _info);
             });
         }
 

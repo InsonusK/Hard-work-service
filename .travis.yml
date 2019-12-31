@@ -3,13 +3,17 @@ service:
   - docker
 
 befor_install:
-  - docker build -t insonusk/hard-work-service -f ./HardWorkService/Dockerfile.test ./HardWorkService
+  - docker build -t insonusk/hard-work-service-test -f ./HardWorkService/Dockerfile.test ./HardWorkService
 
 script:
-  - docker run insonusk/hard-work-service dotnet test
+  - docker run insonusk/hard-work-service-test dotnet test
+
+after_success:
+  - docker build -t insonusk/hard-work-service -f ./HardWorkService/Dockerfile ./HardWorkService
+
+before_deploy:  
+  - echo "$DOCKERHUBPASSWORD" | docker login -u insonusk --password-stdin
 
 deploy:
   provider: script
-  script: bash Scripts/Docker-push.sh
-  on:
-    branch: master
+  script: push insonusk/hard-work-service
