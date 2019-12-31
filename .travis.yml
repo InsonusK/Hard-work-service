@@ -16,6 +16,6 @@ before_deploy:
 
 deploy:
   provider: script
-  script: push insonusk/hard-work-service
+  script: bash Script/Docker-Release-Push
   on: 
     branch: master
