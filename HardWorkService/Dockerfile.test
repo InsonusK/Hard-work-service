@@ -1,0 +1,15 @@
+﻿FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
+WORKDIR /app
+
+# copy csproj and restore as distinct layers
+COPY ./*.sln .
+COPY ./HardWorkService.API/*.csproj ./HardWorkService.API/
+COPY ./HardWorkService/*.csproj ./HardWorkService/
+COPY ./HardWorkService.Test/*.csproj ./HardWorkService.Test/
+RUN dotnet restore
+
+# copy everything else and build app
+COPY ./HardWorkService.API/. ./HardWorkService.API/
+COPY ./HardWorkService/. ./HardWorkService/
+COPY ./HardWorkService.Test/ ./HardWorkService.Test/
+RUN dotnet build

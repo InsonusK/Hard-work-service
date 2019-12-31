@@ -1,0 +1,9 @@
+﻿sudo: required
+service: 
+  - docker
+
+befor_install:
+  - docker build -t insonusk/hard-work-service -f Dockerfile.test ./HardWorkService
+
+script:
+  - docker run insonusk/hard-work-service dotnet test
