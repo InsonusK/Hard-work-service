@@ -32,6 +32,7 @@ namespace HardWorkService.API.Controllers
             return Ok(_hardWorkService.CreateNewWork(TimeSpan.FromSeconds(task.Seconds)));
         }
 
+        [HttpGet("{guid}")]
         public ActionResult<IReadResult> Get(Guid guid)
         {
             if (!_hardWorkService.GetJobs().TryGetValue(guid, out var _result))
