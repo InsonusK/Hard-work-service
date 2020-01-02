@@ -24,7 +24,7 @@ namespace HardWorkService.API.Controllers
             _logger.LogInformation("Post Now, spend {1} seconds", task.Seconds);
             return Ok(_hardWorkService.DoNow(TimeSpan.FromSeconds(task.Seconds)));
         }
-        
+
         [HttpPost("task")]
         public ActionResult<Guid> PostTask([FromBody] TimeWorkTask task)
         {
@@ -43,6 +43,12 @@ namespace HardWorkService.API.Controllers
             {
                 return Ok(_result);
             }
+        }
+        
+        [HttpGet("count")]
+        public ActionResult<int> Count()
+        {
+            return _hardWorkService.GetJobs().Count;
         }
     }
 }
