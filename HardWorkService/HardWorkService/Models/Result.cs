@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using HardWorkService.Interface;
 
 namespace HardWorkService.Models
 {
@@ -11,7 +12,7 @@ namespace HardWorkService.Models
             Task = task;
         }
 
-        public bool Finish { get; set; }
+        public bool Finish => Task.IsCompleted;
         public DateTime EndDateTime { get; set; }
 
         /// <inheritdoc />

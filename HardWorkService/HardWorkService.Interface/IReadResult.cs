@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace HardWorkService.Models
+namespace HardWorkService.Interface
 {
     public interface IReadResult
     {

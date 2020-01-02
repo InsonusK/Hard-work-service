@@ -4,43 +4,71 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using HardWorkService.Interface;
 using HardWorkService.Models;
-using HardWorkService.Status;
 
 namespace HardWorkService
 {
-    public class TimeHardWork : IStatusSource
+    public class TimeHardWork : IHardWorkService<TimeSpan, ulong>
     {
-        ConcurrentDictionary<Guid, Result> Jobs = new ConcurrentDictionary<Guid, Result>();
-
-        public Guid CreateNewWork(TimeSpan time)
+        public TimeHardWork()
         {
-            Guid newGuid = Guid.NewGuid();
-           
-            var task = new Task<ulong>(() =>
-            {
-                ulong answer = DoNow(time);
-                var job = Jobs[newGuid];
-                lock (job)
-                {
-                    job.EndDateTime = DateTime.Now;
-                    job.Finish = true;
-                    return answer;
-                }
-            });
-            if (!Jobs.TryAdd(newGuid, new Result( DateTime.Now,task)))
-            {
-                task.Dispose();
-                throw new DuplicateNameException("Guid duplicate");
-            }
-            task.Start();
-            return newGuid;
+            Jobs = new ConcurrentDictionary<Guid, Result>();
+            Manager = new TimeHardWorkManager(Jobs);
         }
+
+        private ConcurrentDictionary<Guid, Result> Jobs;
+
+
+        #region Implementation of IHardWorkService<in TimeSpan,ulong>
+
+        /// <inheritdoc />
+        public IHardWorkServiceManager Manager { get; }
 
         public ulong DoNow(TimeSpan time)
         {
             return Work(time);
         }
+
+        /// <inheritdoc />
+        public Guid CreateNewJob(TimeSpan jobData)
+        {
+            Guid newGuid = Guid.NewGuid();
+
+            var task = new Task<ulong>(() =>
+            {
+                ulong answer = DoNow(jobData);
+                var job = Jobs[newGuid];
+                lock (job)
+                {
+                    job.EndDateTime = DateTime.Now;
+                    return answer;
+                }
+            });
+            if (!Jobs.TryAdd(newGuid, new Result(DateTime.Now, task)))
+            {
+                task.Dispose();
+                throw new DuplicateNameException("Guid duplicate");
+            }
+
+            task.Start();
+            return newGuid;
+        }
+
+        /// <inheritdoc />
+        public bool GetResult(Guid guid, out ulong result)
+        {
+            if (!Jobs.TryGetValue(guid, out var _result) || !_result.Finish)
+            {
+                result = 0;
+                return false;
+            }
+
+            result = _result.Task.Result;
+            return true;
+        }
+
+        #endregion
 
         public static ulong Work(TimeSpan time)
         {
@@ -59,16 +87,5 @@ namespace HardWorkService
 
             return counter;
         }
-
-        #region Implementation of IStatusSource
-
-        /// <inheritdoc />
-        public IReadOnlyDictionary<Guid, IReadResult> GetJobs()
-        {
-            return new ConcurrentDictionary<Guid, IReadResult>(Jobs.ToDictionary(kvp => kvp.Key,
-                kvp => (IReadResult) kvp.Value));
-        }
-
-        #endregion
     }
 }

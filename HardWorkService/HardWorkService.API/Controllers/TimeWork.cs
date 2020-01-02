@@ -1,14 +1,16 @@
 ﻿using System;
 using HardWorkService.API.Models;
+using HardWorkService.Interface;
 using HardWorkService.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace HardWorkService.API.Controllers
 {
-    [Route("time-work")]
+    [Route(RouteName)]
     public class TimeWork : ControllerBase
     {
+        public const string RouteName = "time-work";
         private readonly TimeHardWork _hardWorkService;
         private readonly ILogger<TimeWork> _logger;
 
@@ -29,13 +31,13 @@ namespace HardWorkService.API.Controllers
         public ActionResult<Guid> PostTask([FromBody] TimeWorkTask task)
         {
             _logger.LogInformation("Post Task, spend {1} seconds", task.Seconds);
-            return Ok(_hardWorkService.CreateNewWork(TimeSpan.FromSeconds(task.Seconds)));
+            return Ok(_hardWorkService.CreateNewJob(TimeSpan.FromSeconds(task.Seconds)));
         }
 
         [HttpGet("{guid}")]
         public ActionResult<IReadResult> Get(Guid guid)
         {
-            if (!_hardWorkService.GetJobs().TryGetValue(guid, out var _result))
+            if (!_hardWorkService.Manager.GetJobs().TryGetValue(guid, out var _result))
             {
                 return BadRequest();
             }
@@ -48,7 +50,7 @@ namespace HardWorkService.API.Controllers
         [HttpGet("count")]
         public ActionResult<int> Count()
         {
-            return _hardWorkService.GetJobs().Count;
+            return _hardWorkService.Manager.JobsCount();
         }
     }
 }
